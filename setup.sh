@@ -2,8 +2,8 @@
 # This script used to install softwares on Ubuntu 18.04 
 # Please DO NOT run it on other OS
 # Usage:
-#   bash <(curl https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh)
-#   bash <(curl https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh) tools zsh node ...
+#   bash <(curl -sL https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh)
+#   bash <(curl -sL https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh) tools zsh node ...
 
 NODE_LTS_VERSION=10
 ZSH_CONFIG_INSTALL_DIR=/opt

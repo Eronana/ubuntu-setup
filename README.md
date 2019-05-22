@@ -8,10 +8,10 @@ a script to setup Ubuntu server
 
 Install all items or view available items:
 ```bash
-bash <(curl https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh)
+bash <(curl -sL https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh)
 ```
 
 Install specified items:
 ```bash
-bash <(curl https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh) tools node ...
+bash <(curl -sL https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh) tools node ...
 ```
