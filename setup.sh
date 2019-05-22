@@ -10,6 +10,7 @@ ZSH_CONFIG_INSTALL_DIR=/opt
 TOOLS=(
   git
   screen
+  htop
   language-pack-zh-hans
 )
 NODE_TOOLS=(
