@@ -42,15 +42,27 @@ function install {
   local installs=`declare -F | grep install_ | sed 's/^declare -f install_//'`
   local list=${@-${installs[@]}}
   local toInstalls=()
+  local options=()
   local name
 
   for name in $list; do
-    if ! in_array $name ${installs[@]}; then
+    if [[ $name == -* ]]; then
+      options+=(`echo $name | cut -c 2-`)
+    elif ! in_array $name ${installs[@]}; then
       echo -e "\033[31mIgnored invalid item: \033[33m$name\033[0m"
     else
       toInstalls+=($name)
     fi
   done
+
+  if [ ${#options[@]} -ne 0 ]; then
+    toInstalls=()
+    for name in ${installs[@]}; do
+      if ! in_array $name ${options[@]}; then
+        toInstalls+=($name)
+      fi
+    done
+  fi
 
   local total=${#toInstalls[@]}
   local count=0
