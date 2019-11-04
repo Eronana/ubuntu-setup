@@ -112,6 +112,7 @@ function install_docker {
     $(lsb_release -cs) \
     stable" &&
   apt-get install -y docker-ce docker-ce-cli containerd.io &&
+  echo "Downloading docker-compose..." &&
   curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose &&
   chmod +x /usr/local/bin/docker-compose
 }
@@ -138,14 +139,6 @@ function install_node_tools {
   echo "The following node packages will be installed:"
   list_array ${NODE_TOOLS[@]} 
   npm i -g --registry=https://registry.npm.taobao.org ${NODE_TOOLS[*]} 
-}
-
-function install_test {
-  echo "test test test"
-}
-
-function install_test2 {
-  echo "test22222222222222"
 }
 
 install $*
