@@ -5,7 +5,7 @@
 #   bash <(curl -sL https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh)
 #   bash <(curl -sL https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh) tools zsh node ...
 
-NODE_LTS_VERSION=10
+NODE_LTS_VERSION=16
 ZSH_CONFIG_INSTALL_DIR=/opt
 TOOLS=(
   git
