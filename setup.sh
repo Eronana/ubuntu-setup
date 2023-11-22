@@ -5,7 +5,7 @@
 #   bash <(curl -sL https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh)
 #   bash <(curl -sL https://raw.githubusercontent.com/Eronana/ubuntu-setup/master/setup.sh) tools zsh node ...
 
-NODE_LTS_VERSION=16
+NODE_MAJOR=20
 ZSH_CONFIG_INSTALL_DIR=/opt
 TOOLS=(
   git
@@ -99,22 +99,19 @@ function install_tools {
 }
 
 function install_docker {
-  apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common &&
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - &&
-  apt-key fingerprint 0EBFCD88 &&
-  add-apt-repository \
-    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) \
-    stable" &&
-  apt-get install -y docker-ce docker-ce-cli containerd.io &&
-  echo "Downloading docker-compose..." &&
-  curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose &&
-  chmod +x /usr/local/bin/docker-compose
+  sudo apt-get update
+  sudo apt-get install ca-certificates curl gnupg
+  sudo install -m 0755 -d /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  
+  # Add the repository to Apt sources:
+  echo \
+    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update
+  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
 function install_zsh {
@@ -131,14 +128,19 @@ function install_zsh {
 }
 
 function install_node {
-  curl -sL https://deb.nodesource.com/setup_$NODE_LTS_VERSION.x | bash - &&
-  apt-get install -y nodejs
+  apt-get update
+  apt-get install -y ca-certificates curl gnupg
+  mkdir -p /etc/apt/keyrings
+  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+  apt-get update
+  apt-get install nodejs -y
 }
 
 function install_node_tools {
   echo "The following node packages will be installed:"
   list_array ${NODE_TOOLS[@]} 
-  npm i -g --registry=https://registry.npm.taobao.org ${NODE_TOOLS[*]} 
+  npm i -g  ${NODE_TOOLS[*]} 
 }
 
 install $*
