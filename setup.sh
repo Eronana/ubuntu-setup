@@ -11,7 +11,7 @@ TOOLS=(
   git
   screen
   htop
-  language-pack-zh-hans
+  # language-pack-zh-hans
 )
 NODE_TOOLS=(
   http-server
